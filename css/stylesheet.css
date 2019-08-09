@@ -17,6 +17,10 @@ body {
     color: white;
 }
 
+table {
+    font-size: 13px;
+}
+
 header {
     text-align: center;
 }

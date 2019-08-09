@@ -74,6 +74,7 @@ $(document).ready(function() {
                     case "coords":
                         cellLable = "Coordinates: ";
                         cellInnerHTML = "Lattitude : " + data[0][k].lat + ", Longitude: " + data[0][k].lng;
+                        getSunriseSunset(data[0][k].lat, data[0][k].lng); //testing
                         break;
                     default:
                         cellLable = k.toUpperCase() + ": ";
@@ -120,11 +121,10 @@ $(document).ready(function() {
          * return the sunrise and sunset information 
          */
         function getSunriseSunset(lat, lng) {
-            let url = "http://https//api.sunrise-sunset.org/json?lat=44.270403&lng=-71.303501";
-            // $.getJSON("./data/mountains.json", function(data) {
-
-            // };
-
+            let url = "https://api.sunrise-sunset.org/json?lat=" + lat + "&lng=" + lng + "&date=today";
+            $.getJSON(url, function(data) {
+                console.log(data);
+            });
         };
 
         /** to add the rows and columms of tbody with data

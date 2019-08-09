@@ -73,14 +73,10 @@ let locations = [
 ];
 
 let parktheads = [
-    "LocationName",
+    "Location",
     "Address",
-    "City",
-    "State",
-    "ZipCode",
     "Phone",
     "Fax",
     "Visit",
-    "Latitude",
-    "Longitude"
+    "Coordinates"
 ]

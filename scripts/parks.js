@@ -7,20 +7,21 @@
 $(document).ready(function() {
 
     let parks;
-    const parkTypeDropdown = document.getElementById("parkType");
-    const locationDropdown = document.getElementById("location");
+    const searchDropdown = document.getElementById("search");
+    const searchRadio = document.querySelectorAll("input[name=search]");
     const tbody = document.getElementById("tbody");
     const thead = document.getElementById("thead");
 
-    fillDropDown(parkTypeDropdown, parkTypes);
-    fillDropDown(locationDropdown, locations);
+    fillDropDown(searchDropdown, locations);
+    for (var i = 0; i < searchRadio.length; i++) {
+        searchRadio[i].addEventListener("click", pupulateSearch);
+    }
 
     /* begining  of getting JSON file */
     $.getJSON("/data/nationalparks.json", function(data) {
         parks = data.parks
-
-        locationDropdown.onchange = refreshTbodyByLocation;
-        parkTypeDropdown.onchange = refreshTbody;
+        searchDropdown.onchange = refreshTbodyByLocation;
+        //searchDropdown.onchange = refreshTbody;
 
         /** refresh the tbody with data
          * no parameters         
@@ -28,8 +29,14 @@ $(document).ready(function() {
         function refreshTbody() {
             tbody.innerHTML = "";
             thead.innerHTML = "";
-            let items = getParksInfoByType(parkTypeDropdown.value);
-            addToThead(thead); // need refactor
+            let searchType = document.querySelector("input[name=search]:checked").value;
+            let items
+            if (searchType == "location")
+                items = getParksInfoByLocation(searchDropdown.value);
+            else
+                items = getParksInfoByType(searchDropdown.value);
+
+            addToThead(thead);
             addToTbody(tbody, items)
         }
 
@@ -39,8 +46,8 @@ $(document).ready(function() {
         function refreshTbodyByLocation() {
             tbody.innerHTML = "";
             thead.innerHTML = "";
-            let items = getParksInfoByLocation(locationDropdown.value);
-            addToThead(thead); // need refactor
+            let items = getParksInfoByLocation(searchDropdown.value);
+            addToThead(thead);
             addToTbody(tbody, items)
         }
 
@@ -74,9 +81,32 @@ $(document).ready(function() {
             let i = 0;
             parktheads.forEach(function(x) {
                 let cell = tr.insertCell(i);
-                let innerHtml = e[x];
-                if (x == "Visit")
-                    innerHtml = (e[x].trim() == "undefined" ? "" : "<a href='" + e[x] + "' target='_blank'>" + e[x] + "</a>")
+                let innerHtml;
+                switch (x) {
+                    case "Location":
+                        innerHtml = e.LocationName;
+                        break;
+                    case "Address":
+                        console.log("'" + e.Address + "'");
+                        innerHtml = e.Address.trim() + "<br>" + e.City + "<br>" + e.State + " " + e.ZipCode;
+                        break;
+                    case "Phone":
+                        innerHtml = (e.Phone == "0" ? " " : e.Phone);
+                        break;
+                    case "Fax":
+                        innerHtml = (e.Fax == "0" ? " " : e.Fax);
+                        break;
+
+                    case "Visit":
+
+                        innerHtml = (typeof e.Visit === "undefined" ? " " : "<a href='" + e["Visit"] + "' target='_blank'>" + e["Visit"] + "</a>")
+                        break;
+                    case "Coordinates":
+                        innerHtml = "Latitude: " + e.Latitude + "<br>" + "Longitude: " + e.Longitude;
+                        break;
+                    default:
+                        innerHtml = e[x];
+                }
 
                 cell.innerHTML = innerHtml;
                 i++;
@@ -95,13 +125,34 @@ $(document).ready(function() {
         });
     };
 
+    function pupulateSearch() {
+        let searchType = document.querySelector("input[name=search]:checked").value;
+        clearDropDown(searchDropdown);
+        if (searchType == "parktype") {
+            fillDropDown(searchDropdown, parkTypes);
+        } else {
+            fillDropDown(searchDropdown, locations);
+        }
+    };
+
     //This is to fill the dropDown with the data in array of elements.
     //adding the option dynamically
     function fillDropDown(dropdown, obj) {
         let nextPos = dropdown.options.length;
         obj.forEach(function(e) {
             dropdown.options[nextPos] = new Option(e, e);
+            console.log(e);
             nextPos++;
         });
-    }
+    };
+
+    //This is to fill the dropDown with the data in array of elements.
+    //adding the option dynamically
+    function clearDropDown() {
+        let len = searchDropdown.options.length;
+        for (let i = len - 1; i >= 1; i--) {
+            searchDropdown.remove(i);
+            console.log(i);
+        }
+    };
 });

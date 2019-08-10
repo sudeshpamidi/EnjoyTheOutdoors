@@ -157,7 +157,7 @@ $(document).ready(function() {
                 searchByLocation.selectedIndex = 0;
                 break;
             case "parktype":
-                searchParkType.className = "show";
+                searchParkType.className = "custom-select show";
                 searchByLocation.selectedIndex = 0
                 searchByLocation.className = "hide";
                 break;
@@ -165,7 +165,7 @@ $(document).ready(function() {
             default:
                 searchParkType.selectedIndex = 0
                 searchParkType.className = "hide";
-                searchByLocation.className = "show";
+                searchByLocation.className = "custom-select show";
         }
     };
 

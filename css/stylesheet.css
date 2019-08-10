@@ -19,6 +19,7 @@ h2 {
     background-size: cover;
     background-position: center center;
     color: white;
+    min-height: 300px;
 }
 
 #table {
@@ -33,12 +34,9 @@ footer {
     text-align: right;
 }
 
-
-/*
 label {
     font-weight: bold;
 }
-*/
 
 .bordered-box {
     border: 1px solid rgba(0, 0, 0, .2);

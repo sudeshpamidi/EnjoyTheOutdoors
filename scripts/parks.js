@@ -150,18 +150,23 @@ $(document).ready(function() {
 
     function refreshScreen() {
         let searchType = document.querySelector("input[name=search]:checked").value;
+
         clearResults();
         switch (searchType) {
             case "all":
                 searchParkType.style.display = "none";
                 searchByLocation.style.display = "none";
+                searchParkType.selectedIndex = 0;
+                searchByLocation.selectedIndex = 0;
                 break;
             case "parktype":
                 searchParkType.style.display = "block";
+                searchByLocation.selectedIndex = 0
                 searchByLocation.style.display = "none";
                 break;
             case "location":
             default:
+                searchParkType.selectedIndex = 0
                 searchParkType.style.display = "none";
                 searchByLocation.style.display = "block";
         }

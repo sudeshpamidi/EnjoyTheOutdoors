@@ -79,4 +79,14 @@ let parktheads = [
     "Fax",
     "Visit",
     "Coordinates"
-]
+];
+let mountainLabels = [
+    "Name",
+    "Elevation",
+    "Effort",
+    "Image",
+    "Description",
+    "Coordinates"
+    /*,
+        "Sunrise/Sunset"*/
+];

@@ -75,6 +75,7 @@ $(document).ready(function() {
                         cellLable = "Coordinates: ";
                         cellInnerHTML = "Lattitude : " + data[0][k].lat + ", Longitude: " + data[0][k].lng;
                         getSunriseSunset(data[0][k].lat, data[0][k].lng); //testing
+                        getTemperature(data[0][k].lat, data[0][k].lng);
                         break;
                     default:
                         cellLable = k.toUpperCase() + ": ";

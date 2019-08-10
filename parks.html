@@ -66,29 +66,35 @@
                                             <input type="radio" id="searchLocation" name="search" class="custom-control-input" value="location" checked>
                                             <label class="custom-control-label" for="searchLocation">Location</label>
                                         </div>
-                                        <div class="custom-control custom-radio">
+                                        <div class="custom-control custom-radio mr-3">
                                             <input type="radio" id="searchParkYype" name="search" class="custom-control-input" value="parktype">
                                             <label class="custom-control-label" for="searchParkYype">Park Type</label>
                                         </div>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="searchAll" name="search" class="custom-control-input" value="all">
+                                            <label class="custom-control-label" for="searchAll">All</label>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <!-- <label for="location" class="col-sm-6 col-form-label">Location:</label> -->
                                 <div class="col-sm-6">
-                                    <select class="custom-select" id="search" name="search">
+                                    <select class="custom-select" id="searchByLocation" name="searchByLocation">
                                         <option value ="">Select One</option>
                                 </select>
+                                    <select class="custom-select hide" id="searchParkType" name="searchParkType">
+                                        <option value ="">Select One</option>
+                                    </select>
+
                                 </div>
                             </div>
-                            <!-- <div class="form-group row">
-                                <label for="menu" class="col-sm-6 col-form-label">Park Type:</label>
+                            <div class="form-group row ">
+                                <!-- <label for="menu" class="col-sm-6 col-form-label">Park Type:</label> -->
                                 <div class="col-sm-6">
-                                    <select class="custom-select" id="parkType" name="parkType">
-                                        <option value ="">Select One</option>
-                                </select>
                                 </div>
-                            </div> -->
+                            </div>
                         </fieldset>
                     </form>
                 </div>

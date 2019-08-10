@@ -12,9 +12,9 @@ enjoytheoutdoors.com is a cloud-enabled, mobile-ready, offline-storage, AngularJ
 # New Features!
 
   - Home Page with the information about tiny out of way paradise, local images and navigation links.
-  - Car rental estimation
-  - Hotel rental cost 
-  - Tour explorer
+  - Search the Mountains information 
+  - Search the Parks information
+
 
 
 You can also:
@@ -44,4 +44,5 @@ OurLittleTown  uses a number of open source projects to work properly:
 
 And of course OurLittleTown itself is open source with a [public repository]
  on GitHub.
+Pics and information is from novascotia.com
  

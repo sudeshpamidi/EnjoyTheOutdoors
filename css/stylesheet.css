@@ -9,16 +9,20 @@ body {
     }
 }
 
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .jumbotron {
-    background-image: url(../images/jumbotranImage1.jpg);
+    background-image: url(../images/home-jumbo.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
     color: white;
 }
 
-table {
-    font-size: 13px;
+#table {
+    font-size: 15px;
 }
 
 header {
@@ -68,7 +72,7 @@ label {
 }
 
 .image-md {
-    width: 412px;
+    width: 310px;
     height: 240px;
 }
 

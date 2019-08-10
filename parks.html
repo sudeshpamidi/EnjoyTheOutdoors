@@ -44,8 +44,7 @@
         <div class="jumbotron">
             <div class="container text-center">
                 <h1 class="text-center mb-4">Parks</h1>
-                <p class="lead"> 2nd Aug 2019 | 18° C<span>
-                    </span></p>
+                <p class="lead" id="today"> 2nd Aug 2019 | 18° C</p>
             </div>
         </div>
     </header>
@@ -57,11 +56,11 @@
                 <div class="col-lg-4 offset-lg-4">
                     <form class="mb-2" id="frmMenu" action="#" method="GET">
                         <fieldset>
-                            <legend class="font-normal">Search</legend>
+                            <legend class="font-normal">Search by</legend>
                             <div class="form-group row">
                                 <div class="col-sm-12">
                                     <div class="form-check form-check-inline">
-                                        <p class="form-check-label mr-4">Search By</p>
+                                        <!-- <p class="form-check-label mr-4">Search By</p> -->
                                         <div class="custom-control custom-radio mr-3">
                                             <input type="radio" id="searchLocation" name="search" class="custom-control-input" value="location" checked>
                                             <label class="custom-control-label" for="searchLocation">Location</label>
@@ -74,25 +73,17 @@
                                             <input type="radio" id="searchAll" name="search" class="custom-control-input" value="all">
                                             <label class="custom-control-label" for="searchAll">All</label>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <!-- <label for="location" class="col-sm-6 col-form-label">Location:</label> -->
                                 <div class="col-sm-6">
                                     <select class="custom-select" id="searchByLocation" name="searchByLocation">
-                                        <option value ="">Select One</option>
-                                </select>
-                                    <select class="custom-select hide" id="searchParkType" name="searchParkType">
-                                        <option value ="">Select One</option>
+                                        <option value="">Select One</option>
                                     </select>
-
-                                </div>
-                            </div>
-                            <div class="form-group row ">
-                                <!-- <label for="menu" class="col-sm-6 col-form-label">Park Type:</label> -->
-                                <div class="col-sm-6">
+                                    <select class="custom-select hide" id="searchParkType" name="searchParkType">
+                                        <option value="">Select One</option>
+                                    </select>
                                 </div>
                             </div>
                         </fieldset>
@@ -109,12 +100,12 @@
                     </table>
                 </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-sm-8 offset-sm-2">
                     <table class="table" id="tableMountain">
                     </table>
                 </div>
-            </div>
+            </div> -->
             <!-- end of row -->
         </div>
     </main>

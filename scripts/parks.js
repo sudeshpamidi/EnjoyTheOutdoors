@@ -7,35 +7,39 @@
 $(document).ready(function() {
 
     let parks;
-    const searchDropdown = document.getElementById("search");
+    const searchParkType = document.getElementById("searchParkType");
+    const searchByLocation = document.getElementById("searchByLocation");
     const searchRadio = document.querySelectorAll("input[name=search]");
     const tbody = document.getElementById("tbody");
     const thead = document.getElementById("thead");
 
-    fillDropDown(searchDropdown, locations);
-    for (var i = 0; i < searchRadio.length; i++) {
-        searchRadio[i].addEventListener("click", pupulateSearch);
+    fillDropDown(searchByLocation, locations);
+    fillDropDown(searchParkType, parkTypes);
+
+    for (var i = 0; i < searchRadio.length - 1; i++) {
+        searchRadio[i].addEventListener("click", refreshScreen);
     }
 
     /* begining  of getting JSON file */
     $.getJSON("/data/nationalparks.json", function(data) {
         parks = data.parks
-        searchDropdown.onchange = refreshTbodyByLocation;
-        //searchDropdown.onchange = refreshTbody;
+        searchByLocation.onchange = displayResultsByLocation;
+        searchParkType.onchange = displayResultsByParkType;
+
+        searchRadio[2].addEventListener("click", displayResults);
+
+        function displayResults() {
+            refreshScreen();
+            addToThead(thead);
+            addToTbody(tbody, parks)
+        };
 
         /** refresh the tbody with data
          * no parameters         
          */
-        function refreshTbody() {
-            tbody.innerHTML = "";
-            thead.innerHTML = "";
-            let searchType = document.querySelector("input[name=search]:checked").value;
-            let items
-            if (searchType == "location")
-                items = getParksInfoByLocation(searchDropdown.value);
-            else
-                items = getParksInfoByType(searchDropdown.value);
-
+        function displayResultsByParkType() {
+            clearResults();
+            let items = getParksInfoByType(searchParkType.value);
             addToThead(thead);
             addToTbody(tbody, items)
         }
@@ -43,10 +47,9 @@ $(document).ready(function() {
         /** refresh the tbody with data
          * no parameters         
          */
-        function refreshTbodyByLocation() {
-            tbody.innerHTML = "";
-            thead.innerHTML = "";
-            let items = getParksInfoByLocation(searchDropdown.value);
+        function displayResultsByLocation() {
+            clearResults();
+            let items = getParksInfoByLocation(searchByLocation.value);
             addToThead(thead);
             addToTbody(tbody, items)
         }
@@ -68,8 +71,28 @@ $(document).ready(function() {
             let parksInfo = parks.filter(o => o.State == location);
             return parksInfo;
         }
+
+        // function getParks(searchType) {
+        //     let parksInfo
+        //     switch (searchType) {
+        //         case "all":
+        //             parksInfo = parks.filter(o => 1 == 1);
+        //             break;
+        //         case "parktype": //LocationName
+        //             parksInfo = parks.filter(o => o.LocationName.includes(parkType));
+        //             break;
+        //         case "location": //State
+        //         default:
+        //             parksInfo = parks.filter(o => o.State == location);
+        //     }
+        // }
     });
     /* end of getting JSON file */
+
+    function clearResults() {
+        tbody.innerHTML = "";
+        thead.innerHTML = "";
+    }
 
     /** to add the rows and columms of tbody with data
      * @param tbody table body element
@@ -87,8 +110,8 @@ $(document).ready(function() {
                         innerHtml = e.LocationName;
                         break;
                     case "Address":
-                        console.log("'" + e.Address + "'");
-                        innerHtml = e.Address.trim() + "<br>" + e.City + "<br>" + e.State + " " + e.ZipCode;
+
+                        innerHtml = e.Address + "<br>" + e.City + "<br>" + e.State + " " + e.ZipCode;
                         break;
                     case "Phone":
                         innerHtml = (e.Phone == "0" ? " " : e.Phone);
@@ -125,14 +148,29 @@ $(document).ready(function() {
         });
     };
 
-    function pupulateSearch() {
+    function refreshScreen() {
         let searchType = document.querySelector("input[name=search]:checked").value;
-        clearDropDown(searchDropdown);
-        if (searchType == "parktype") {
-            fillDropDown(searchDropdown, parkTypes);
-        } else {
-            fillDropDown(searchDropdown, locations);
+        clearResults();
+        switch (searchType) {
+            case "all":
+                searchParkType.style.display = "none";
+                searchByLocation.style.display = "none";
+                break;
+            case "parktype":
+                searchParkType.style.display = "block";
+                searchByLocation.style.display = "none";
+                break;
+            case "location":
+            default:
+                searchParkType.style.display = "none";
+                searchByLocation.style.display = "block";
         }
+
+        // if (searchType == "parktype") {
+        //     fillDropDown(searchDropdown, parkTypes);
+        // } else {
+        //     fillDropDown(searchDropdown, locations);
+        // }
     };
 
     //This is to fill the dropDown with the data in array of elements.

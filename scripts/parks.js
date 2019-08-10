@@ -13,6 +13,9 @@ $(document).ready(function() {
     const tbody = document.getElementById("tbody");
     const thead = document.getElementById("thead");
 
+    let today = new Date();
+    document.getElementById("today").innerHTML = today.toDateString() + " | 79° F";
+
     fillDropDown(searchByLocation, locations);
     fillDropDown(searchParkType, parkTypes);
 

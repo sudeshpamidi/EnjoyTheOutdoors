@@ -4,21 +4,25 @@
 */
 "use strict"
 $(document).ready(function() {
-    let mountains
+
     const mountainDropdown = document.getElementById("mountain");
-    const tbody = document.getElementById("tbody");
-    const thead = document.getElementById("thead");
     const tMountain = document.getElementById("tableMountain");
+
+    document.getElementById("today").innerHTML = new Date().toDateString() + " | 79° F";
+
 
     /***** Begining of getJSON******/
     $.getJSON("./data/mountains.json", function(data) {
-        mountains = data.mountains
-        fillDropDown(mountainDropdown, mountains);
-        mountainDropdown.onchange = refreshTbody;
+        let mountains = data.mountains
 
-        //first time by default
+        fillDropDown(mountainDropdown, mountains);
+
+        //wiring the event 
+        mountainDropdown.onchange = refreshData;
+
+        //Show default data for first element in dropdown
         let items = getMountainInfo(mountainDropdown.value);
-        displayInTable(tMountain, items);
+        displayData(tMountain, items);
 
         //This is to fill the dropDown with the data in array of elements.
         function fillDropDown(dropdown, obj) {
@@ -30,21 +34,22 @@ $(document).ready(function() {
             });
         }
 
-        /** to add the rows and columms of tbody with data
-         * @param mountainName(text) Mountain Name
-         * return the mountains element
+        /** filter the array for given mountain name 
+         * @param mountainName(text)  Mountain Name
+         * returns the mountain object
          */
         function getMountainInfo(mountainName) {
             let mountain = mountains.filter(o => o.name == mountainName);
             return mountain;
         };
 
-        function refreshTbody() {
-            //tbody.innerHTML = "";
+        /**
+         * to refresh the data in the table 
+         */
+        function refreshData() {
             tMountain.innerHTML = "";
             items = getMountainInfo(mountainDropdown.value);
-            //addToTbody(tbody, items)
-            displayInTable(tMountain, items);
+            displayData(tMountain, items);
         }
 
     });
@@ -54,21 +59,22 @@ $(document).ready(function() {
      * @param tbody table body element
      * @param data  array of elements
      */
-    function displayInTable(table, data) {
+    function displayData(table, data) {
         let i = 0;
+        //Loop through each lable in mountainLabels(objects.js).
         mountainLabels.forEach(function(k) {
             //Object.keys(data[0]).forEach(function(k, i) {
             let label, text;
             label = k + ": ";
             switch (k) {
                 case "Name":
-                    text = data[0].name; // data[0][k];
+                    text = data[0].name;
                     break;
                 case "Elevation":
-                    text = data[0].elevation; // data[0][k];
+                    text = data[0].elevation;
                     break;
                 case "Effort":
-                    text = data[0].effort; // data[0][k];
+                    text = data[0].effort;
                     break;
                 case "Image":
                     text = "<img src= 'images/" + data[0].img + "' >"
@@ -77,21 +83,21 @@ $(document).ready(function() {
                     text = "Lattitude : " + data[0].coords.lat + ", Longitude: " + data[0].coords.lng;
                     break;
                 case "Description":
-                    text = data[0].desc; //data[0][k];
+                    text = data[0].desc;
                     break;
             };
             addRow(table, i, label, text)
             i++;
         });
+        //add row to table with sunrise/sunset information
         getSunriseSunset(data[0].coords.lat, data[0].coords.lng, table, i);
     };
 
-    /**
-     * adding row with col values
-     * @param {*} table 
-     * @param {*} i 
-     * @param {*} lable 
-     * @param {*} text 
+    /**To addi a row to table with col values
+     * @param {*} table -- table name
+     * @param {*} i     -- row num
+     * @param {*} lable -- lable text in first column
+     * @param {*} text  -- text value in second column
      */
     function addRow(table, i, lable, text) {
         let tr = table.insertRow(i)
@@ -103,18 +109,21 @@ $(document).ready(function() {
         cell.innerHTML = text;
         tr.appendChild(cell);
     };
+
+
     /** To fetch the sunrise and sunset information 
-     * based on given lattitude and longitude
-     * @param {*} lat 
-     * @param {*} lng 
-     * @param {*} sunRiseSet 
+     * based on given lattitude and longitude write to a row in table
+     * @param {*} lat          lattitide
+     * @param {*} lng          longitude
+     * @param {*} table        tablename
+     * @param {*} childrow     row num
      */
     function getSunriseSunset(lat, lng, table, childrow) {
         let url = "https://api.sunrise-sunset.org/json?lat=" + lat + "&lng=" + lng + "&date=today";
         $.getJSON(url, function(data) {
             let sunRiseSet = data.results;
             console.log(sunRiseSet.sunrise);
-            addRow(table, childrow, "Sunrise/Sunset", sunRiseSet.sunrise + "/" + sunRiseSet.sunset);
+            addRow(table, childrow, "Sunrise/Sunset:", "Rise: " + sunRiseSet.sunrise + ",  Set: " + sunRiseSet.sunset);
         });
 
     };
